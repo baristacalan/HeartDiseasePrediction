@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.feature_selection import RFE
+from sklearn.model_selection import GridSearchCV
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -57,11 +59,25 @@ def main():
     x_train_transformed = np.hstack((x_train_num_scaled, x_train_cat_encoded))
     x_test_transformed = np.hstack((x_test_num_scaled, x_test_cat_encoded))
 
+
+
     rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf_params = {
+        "n_estimators" : [100, 200, 300],
+        "max_depth" : [None, 10, 20, 30],
+        "min_samples_split" : [2, 5, 10],
+        "min_samples_leaf" : [1, 2, 4]
+    }
+    gcv = GridSearchCV(estimator=rf, param_grid=rf_params, cv=5, scoring="accuracy", n_jobs=-1)
+    gcv.fit(x_train_transformed, y_train)
+    best_rf = gcv.best_estimator_
+    print("Best Params: ", gcv.best_params_)
     knn = KNeighborsClassifier()
+    rfe = RFE(estimator=rf, n_features_to_select=5)
+    rfe.fit(X=x_train_transformed, y=y_train)
 
     voting_clf = VotingClassifier(
-        estimators=[("rf", rf), ("knn", knn)],
+        estimators=[("rf", best_rf), ("knn", knn), ("rfe", rfe)],
         voting="soft"
     )
     voting_clf.fit(x_train_transformed, y_train)
