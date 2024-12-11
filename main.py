@@ -29,17 +29,6 @@ def main():
         else:
             df[col].fillna(value=df[col].mode()[0], inplace=True)
 
-    """df['trestbps'].fillna(value=df['trestbps'].mean(), inplace=True)
-    df['chol'].fillna(value=df['chol'].mean(), inplace=True)
-    df['fbs'].fillna(value=df['fbs'].mode()[0], inplace=True)
-    df['restecg'].fillna(value=df['restecg'].mode()[0], inplace=True)
-    df['thalch'].fillna(value=df['thalch'].mean(), inplace=True)
-    df['exang'].fillna(value=df['exang'].mode()[0], inplace=True)
-    df['oldpeak'].fillna(value=df['oldpeak'].mean(), inplace=True)
-    df['slope'].fillna(value=df['slope'].mode()[0], inplace=True)
-    df['thal'].fillna(value=df['thal'].mode()[0], inplace=True)"""
-
-
     X = df.drop(columns=["num"], axis=1)
     Y = df['num']
 
