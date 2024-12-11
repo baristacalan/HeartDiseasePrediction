@@ -1,10 +1,3 @@
-# import libraries
-# Load dataset and Exploratory Data Analysis
-# Handle missing ones, outliers etc.
-# Train-Test split
-# Standardization
-#Modellization
-#CM
 
 import pandas as pd
 import numpy as np
