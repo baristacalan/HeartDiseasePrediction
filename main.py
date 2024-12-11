@@ -73,7 +73,10 @@ def main():
     print(cm)
     print("Classification Report:\n", classification_report(y_test, y_pred))
 
-    sns.heatmap(data=cm, cmap="inferno")
+    sns.heatmap(data=cm, cmap="Blues", annot=True, fmt="d")
+    plt.xlabel("Predicted")
+    plt.ylabel("True")
+    plt.title("Confusion Matrix")
     plt.show()
 
     return 0
